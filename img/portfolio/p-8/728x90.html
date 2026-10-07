@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>728x90</title>
+<meta name="ad.size" content="width=728,height=90">
+<script src="easeljs-0.6.0.min.js"></script>
+<script src="tweenjs-0.4.0.min.js"></script>
+<script src="movieclip-0.6.0.min.js"></script>
+<script src="preloadjs-0.3.0.min.js"></script>
+<script src="728x90.js"></script>
+<script type="text/javascript" src="exitapi.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var manifest = [
+		{src:"images/_970x250fondo.jpg", id:"_970x250fondo"},
+		{src:"images/_970x250fondo2.jpg", id:"_970x250fondo2"},
+		{src:"images/_970x250fondo3.jpg", id:"_970x250fondo3"}
+	];
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(manifest);
+
+	reloadAd();
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete() {
+	exportRoot = new lib._728x90();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(24);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+</script>
+<style type="text/css">
+	#reload{position: absolute; top: 2px; right: -425px; cursor: pointer; display: none;}
+	.contenedor{position: relative; width: 300px}
+</style>
+</head>
+
+<body onload="init();" style="background-color:#fff" topmargin="0" leftmargin="0">
+<div class="contenedor">
+<div id="reload"><img src="images/reload.png" onclick="init();"></div>
+	<canvas id="canvas" width="728" height="90" style="background-color:#ffffff;"></canvas>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>240x400</title>
+<meta name="ad.size" content="width=240,height=400">
+<script type="text/javascript" src="easeljs-0.6.0.min.js"></script>
+<script type="text/javascript" src="tweenjs-0.4.0.min.js"></script>
+<script type="text/javascript" src="movieclip-0.6.0.min.js"></script>
+<script type="text/javascript" src="preloadjs-0.3.0.min.js"></script>
+<script src="240x400.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var manifest = [
+		{src:"images/icon1min.png", id:"icon1min"},
+		{src:"images/icon2min.png", id:"icon2min"},
+		{src:"images/icon3min.png", id:"icon3min"},
+		{src:"images/icon4min.png", id:"icon4min"},
+		{src:"images/img_aladerechamin.png", id:"img_aladerechamin"},
+		{src:"images/img_alaizquierdamin.png", id:"img_alaizquierdamin"},
+		{src:"images/img_colamin.png", id:"img_colamin"},
+		{src:"images/img_cuerpomin.png", id:"img_cuerpomin"},
+		{src:"images/img_fondomin.jpg", id:"img_fondomin"},
+		{src:"images/img_narizmin.png", id:"img_narizmin"},
+		{src:"images/img_puntaderechamin.png", id:"img_puntaderechamin"},
+		{src:"images/img_puntaizquierdamin.png", id:"img_puntaizquierdamin"},
+		{src:"images/img_tarjetasmin.png", id:"img_tarjetasmin"}
+	];
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(manifest);
+
+	reloadAd();
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete() {
+	exportRoot = new lib._240x400();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(24);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+</script>
+<style type="text/css">
+	#reload{position: absolute; top: 14px; right: 5px; cursor: pointer; display: none;}
+	.contenedor{position: relative; width: 240px}
+</style>
+</head>
+
+<body onload="init();" style="background-color:#fff" topmargin="0" leftmargin="0">
+<div class="contenedor">
+<div id="reload"><img src="images/reload.png" onclick="init();"></div>
+	<canvas id="canvas" width="240" height="400" style="background-color:#ffffff;"></canvas>
+</div>
+</body>
+</html>

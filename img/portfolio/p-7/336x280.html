@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>336x280</title>
+<meta name="ad.size" content="width=336,height=280">
+<script type="text/javascript" src="https://tpc.googlesyndication.com/pagead/gadgets/html5/api/exitapi.js"> </script>
+<script type="text/javascript" src="easeljs-0.6.0.min.js"></script>
+<script type="text/javascript" src="tweenjs-0.4.0.min.js"></script>
+<script type="text/javascript" src="movieclip-0.6.0.min.js"></script>
+<script type="text/javascript" src="preloadjs-0.3.0.min.js"></script>
+<script src="336x280.js"></script>
+
+<script>
+var canvas, stage, exportRoot;
+
+function init() {
+	canvas = document.getElementById("canvas");
+	images = images||{};
+
+	var manifest = [
+		{src:"images/_336x280aviancamin.png", id:"_336x280aviancamin"},
+		{src:"images/_336x280callcentermin.png", id:"_336x280callcentermin"},
+		{src:"images/_336x280fondo1min.jpg", id:"_336x280fondo1min"},
+		{src:"images/_336x280fondo2min.jpg", id:"_336x280fondo2min"},
+		{src:"images/_336x280maletamin.png", id:"_336x280maletamin"},
+		{src:"images/_336x280oficinasmin.png", id:"_336x280oficinasmin"},
+		{src:"images/_336x280tarjetasmin.png", id:"_336x280tarjetasmin"}
+	];
+
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(manifest);
+
+	reloadAd();
+}
+
+function handleFileLoad(evt) {
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }
+}
+
+function handleComplete() {
+	exportRoot = new lib._336x280();
+
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);
+	stage.update();
+
+	createjs.Ticker.setFPS(24);
+	createjs.Ticker.addEventListener("tick", stage);
+}
+</script>
+<style type="text/css">
+	#reload{position: absolute; top: 21px; right: -29px; cursor: pointer; display: none;}
+	.contenedor{position: relative; width: 300px}
+</style>
+</head>
+
+<body onload="init();" style="background-color:#fff" topmargin="0" leftmargin="0">
+<div class="contenedor">
+<div id="reload"><img src="images/reload.png" onclick="init();"></div>
+	<canvas id="canvas" width="336" height="280" style="background-color:#ffffff;"></canvas>
+</div>
+</body>
+</html>
